@@ -1,5 +1,6 @@
 ## 修改tendermint配置
  在$TMHOME/config/config.toml文件中，该文件夹处于隐藏状态
+ 
  修改以下内容，使得tendermint可以跨域访问
 ```
  #A list of origins a cross-domain request can be executed from
