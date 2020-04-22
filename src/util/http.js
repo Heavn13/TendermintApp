@@ -3,6 +3,7 @@
  * @author Heavn
  */
 import axios from "axios";
+import {jsonToSingle} from "./StringUtil";
 
 /**
  * axios默认请求实例
@@ -28,7 +29,7 @@ let http = {
  * @returns {Promise<unknown>}
  */
 http.sendTransaction = (key, data) => {
-    const params = JSON.stringify(data).replace(/"/g,"'");
+    const params = jsonToSingle(JSON.stringify(data));
     console.log(params);
     return new Promise((resolve, reject) => {
         try {

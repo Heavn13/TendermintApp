@@ -5,7 +5,6 @@ import {CheckOutlined} from '@ant-design/icons';
 import "./index.css"
 import http from "../util/http";
 import WhiteSpace from "../components/WhiteSpace";
-import {decodeBase64} from "../util/decode";
 const i_phone = require("../assets/i_phone.svg");
 const i_smscode = require("../assets/i_smscode.svg");
 const i_password = require("../assets/i_password.svg");
@@ -29,10 +28,8 @@ export default class Register extends React.Component{
      * 发送短信验证码
      */
     send = async () => {
-        let {time, phone} = this.state;
+        let {time} = this.state;
         try {
-            const resp = await http.query(phone);
-            console.log(decodeBase64(resp.data.result.response.value));
             this.setState({isSend: true});
             const T = setInterval(() => {
                 this.setState({time: --time});
@@ -124,7 +121,7 @@ export default class Register extends React.Component{
                             <Button
                                 type={"primary"}
                                 style={{width: '100%'}}
-                                // disabled={phone.length !== 11 || !password || !smsCode }
+                                disabled={phone.length !== 11 || !password || !smsCode }
                                 onClick={() => this.toRegister()}
                             >
                                 注册
