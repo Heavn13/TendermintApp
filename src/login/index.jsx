@@ -1,8 +1,8 @@
+import "./index.css"
 import React from "react";
 import http from "../util/http";
 import {decodeBase64} from "../util/decode";
-import {Button, Col, Input, Message, Row} from "antd";
-import WhiteSpace from "../components/WhiteSpace";
+import {Button, InputItem, Toast, WingBlank, WhiteSpace, Flex} from "antd-mobile";
 import {jsonToDouble} from "../util/StringUtil";
 const i_phone = require("../assets/i_phone.svg");
 const i_password = require("../assets/i_password.svg");
@@ -20,18 +20,19 @@ export default class Login extends React.Component{
     }
 
     toLogin = async () => {
-        const {phone, pasword} = this.state;
+        const {phone, password} = this.state;
         try {
             const resp = await http.query(phone);
             if(resp.data && resp.data.result.response.value){
                 const user = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
-                if(user.password === pasword){
-                    Message.info("登陆成功");
+                if(user.password === password){
+                    Toast.info("登陆成功");
+                    this.props.history.push("/register");
                 }else{
-                    Message.error("密码错误");
+                    Toast.fail("密码错误");
                 }
             }else{
-                Message.error("用户不存在");
+                Toast.fail("用户不存在");
             }
         }catch (e) {
             console.log(e);
@@ -42,38 +43,46 @@ export default class Login extends React.Component{
         const {phone, password} = this.state;
         return(
             <div className="login">
-                <Row>
-                    <Col span={6} offset={9}>
-                        <div style={{height: 100}}></div>
-                        <div className={"name"}>TendermintApp</div>
-                        <WhiteSpace size={"middle"}/>
-                        <Input
-                            allowClear
-                            maxLength={11}
-                            placeholder={"请输入手机号码"}
-                            prefix={<img src={i_phone} alt={"手机号:"}/>}
-                            value={phone}
-                            onChange={e => this.setState({phone: e.target.value})}
-                        />
-                        <WhiteSpace size={"middle"}/>
-                        <Input.Password
-                            maxLength={16}
-                            placeholder={"请输入8-16位密码"}
-                            value={password}
-                            prefix={<img src={i_password} alt={"密码:"}/>}
-                            onChange={e => this.setState({password: e.target.value})}
-                        />
-                        <WhiteSpace size={"middle"}/>
-                        <Button
-                            type={"primary"}
-                            style={{width: '100%'}}
-                            disabled={phone.length !== 11 || !password}
-                            onClick={() => this.toLogin()}
-                        >
-                            登录
-                        </Button>
-                    </Col>
-                </Row>
+                <WingBlank>
+                    <div style={{height: 100}}></div>
+                    <div className={"name"}>TendermintApp</div>
+                    <WhiteSpace size={"xl"}/>
+                    <InputItem
+                        type={"phone"}
+                        clear
+                        placeholder={"请输入手机号码"}
+                        value={phone}
+                        onChange={phone => this.setState({phone})}
+                    >
+                        <img src={i_phone}  alt={"手机号:"}/>
+                    </InputItem>
+                    <WhiteSpace />
+                    <InputItem
+                        maxLength={16}
+                        type={"password"}
+                        clear
+                        placeholder={"请输入8-16位密码"}
+                        value={password}
+                        onChange={password => this.setState({password})}
+                    >
+                        <img src={i_password}  alt={"密码:"}/>
+                    </InputItem>
+                    <WhiteSpace size={"xs"}/>
+                    <Flex justify={"between"} style={{overflow: "visible"}}>
+                        <div>忘记密码</div>
+                        <div onClick={() => this.props.history.push("/register")}>新用户注册</div>
+                    </Flex>
+                    <WhiteSpace size={"lg"}/>
+                    <Button
+                        type={"primary"}
+                        size={"small"}
+                        style={{width: '100%'}}
+                        disabled={phone.length !== 11 || !password}
+                        onClick={() => this.toLogin()}
+                    >
+                        登录
+                    </Button>
+                </WingBlank>
             </div>
         )
     }

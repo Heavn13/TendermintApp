@@ -1,10 +1,8 @@
 import React from "react";
 import {PhoneFormat} from "../util/StringUtil";
-import {Button, Message, Input, Row, Col} from "antd";
-import {CheckOutlined} from '@ant-design/icons';
+import {Button, NavBar, Icon, InputItem, Toast, WhiteSpace, WingBlank} from "antd-mobile";
 import "./index.css"
 import http from "../util/http";
-import WhiteSpace from "../components/WhiteSpace";
 const i_phone = require("../assets/i_phone.svg");
 const i_smscode = require("../assets/i_smscode.svg");
 const i_password = require("../assets/i_password.svg");
@@ -50,7 +48,7 @@ export default class Register extends React.Component{
         const {phone, password} = this.state;
         // 密码长度校验
         if(password.length < 8) {
-            Message.info("密码长度太短，请重新设置");
+            Toast.info("密码长度太短，请重新设置");
             this.setState({password: ""});
             return ;
         }
@@ -61,9 +59,9 @@ export default class Register extends React.Component{
             }
             const resp = await http.sendTransaction(user.phone, user);
             if(resp.data && resp.data.error){
-                Message.error("该用户已存在");
+                Toast.fail("该用户已存在");
             }else{
-                Message.success("注册成功");
+                Toast.success("注册成功");
                 console.log(resp.data.result.hash);
             }
         }catch (e) {
@@ -75,62 +73,70 @@ export default class Register extends React.Component{
         const {phone, password, smsCode, isSend, time} = this.state;
         return(
             <div className="register">
-                <Row>
-                    <Col span={6} offset={9}>
-                        <div className="content">
-                            <div style={{height: 100}}></div>
-                            <div className={"name"}>TendermintApp</div>
-                            <WhiteSpace size={"middle"}/>
-                            <Input
-                                allowClear
-                                maxLength={11}
-                                placeholder={"请输入手机号码"}
-                                prefix={<img src={i_phone} alt={"手机号:"}/>}
-                                value={phone}
-                                onChange={e => this.setState({phone: e.target.value})}
-                            />
-                            <WhiteSpace size={"middle"}/>
-                            <Input
-                                maxLength={6}
-                                placeholder={"请输入验证码"}
-                                value={smsCode}
-                                onChange={e => this.setState({smsCode: e.target.value})}
-                                prefix={<img src={i_smscode} alt={"验证码:"}/>}
-                                suffix={
-                                    <Button
-                                        type={"primary"}
-                                        onClick={this.send}
-                                        disabled={isSend || PhoneFormat(phone).length !== 11 }>{isSend ? time + " s" : "发送"}</Button>
-                                }
-                            />
-                            <WhiteSpace size={"middle"}/>
-                            <Input.Password
-                                maxLength={16}
-                                placeholder={"请输入8-16位密码"}
-                                value={password}
-                                prefix={<img src={i_password} alt={"密码:"}/>}
-                                onChange={e => this.setState({password: e.target.value})}
-                            />
-                            {isSend ? (
-                                <div className="hint">
-                                    <WhiteSpace size={"middle"}/>
-                                    <CheckOutlined /><span className="message">短信验证码已发送,请注意查收</span>
-                                </div>
-                            ): null}
-                            <WhiteSpace size={"middle"}/>
+                {/*导航栏*/}
+                <NavBar
+                    icon={<Icon type="left" />}
+                    onLeftClick={() => this.props.history.goBack()}
+                >
+                    注册
+                </NavBar>
+                <WingBlank className="content">
+                    <div style={{height: 100}}></div>
+                    <InputItem
+                        type={"phone"}
+                        clear
+                        placeholder={"请输入手机号码"}
+                        value={phone}
+                        onChange={phone => this.setState({phone})}
+                    >
+                        <img src={i_phone} alt={"手机号:"}/>
+                    </InputItem>
+                    <WhiteSpace />
+                    <InputItem
+                        maxLength={6}
+                        type={"number"}
+                        placeholder={"请输入验证码"}
+                        value={smsCode}
+                        onChange={smsCode => this.setState({smsCode})}
+                        extra={
                             <Button
                                 type={"primary"}
-                                style={{width: '100%'}}
-                                disabled={phone.length !== 11 || !password || !smsCode }
-                                onClick={() => this.toRegister()}
-                            >
-                                注册
-                            </Button>
+                                size={"small"}
+                                onClick={this.send}
+                                disabled={isSend || PhoneFormat(phone).length !== 11 }>{isSend ? time + " s" : "发送"}</Button>
+                        }
+                        onExtraClick={() => {}}
+                    >
+                        <img src={i_smscode} alt={"验证码:"}/>
+                    </InputItem>
+                    <WhiteSpace />
+                    <InputItem
+                        maxLength={16}
+                        type={"password"}
+                        clear
+                        placeholder={"请输入8-16位密码"}
+                        value={password}
+                        onChange={password => this.setState({password})}
+                    >
+                        <img src={i_password}  alt={"密码:"}/>
+                    </InputItem>
+                    <WhiteSpace />
+                    {isSend ? (
+                        <div className="hint">
+                            <Icon type={"check-circle-o"}/><span className="message">短信验证码已发送,请注意查收</span>
                         </div>
-                    </Col>
-                </Row>
+                    ): null}
+                    <WhiteSpace />
+                    <Button
+                        type={"primary"}
+                        size={"small"}
+                        disabled={PhoneFormat(phone).length !== 11 || !password || !smsCode }
+                        onClick={() => this.toRegister()}
+                    >
+                        注册
+                    </Button>
+                </WingBlank>
             </div>
         )
     }
-
 }
