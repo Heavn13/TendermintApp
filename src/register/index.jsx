@@ -1,6 +1,6 @@
 import React from "react";
 import {PhoneFormat} from "../util/StringUtil";
-import {Button, NavBar, Icon, InputItem, Toast, WhiteSpace, WingBlank} from "antd-mobile";
+import {Button, NavBar, Icon, InputItem, Toast, WhiteSpace, WingBlank, Modal} from "antd-mobile";
 import "./index.css"
 import http from "../util/http";
 import {defaultUser} from "../util/dict";
@@ -60,11 +60,14 @@ export default class Register extends React.Component{
                 nickname: PhoneFormat(phone),
                 password: password
             }
-            const resp = await http.sendTransaction("user:"+user.phone, user);
+            const resp = await http.sendTransactionByAdd("user:"+user.phone, user);
             if(resp.data && resp.data.error){
                 Toast.fail("该用户已存在");
             }else{
-                Toast.success("注册成功");
+                Modal.alert("注册成功","是否去登录?",[
+                    {text: "取消", onPress:() => {}},
+                    {text: "确认", onPress:() => this.props.history.goBack()},
+                ]);
                 console.log(resp.data.result.hash);
             }
         }catch (e) {

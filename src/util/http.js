@@ -19,21 +19,67 @@ let instance = axios.create({
 });
 
 let http = {
-    sendTransaction: (key, data) => {}
+    sendTransactionByAdd: (key, data) => {}
 };
 
 /**
- * 发起交易
+ * 发起交易, 新增
  * @param key
  * @param data
  * @returns {Promise<unknown>}
  */
-http.sendTransaction = (key, data) => {
+http.sendTransactionByAdd = (key, data) => {
     const params = jsonToSingle(JSON.stringify(data));
     console.log(params);
     return new Promise((resolve, reject) => {
         try {
-            instance.get(`/broadcast_tx_async?tx="${key}=${params}"`).then(
+            instance.get(`/broadcast_tx_async?tx="add=${key}=${params}"`).then(
+                success => {
+                    resolve(success);
+                },
+                fail => {
+                    reject(fail);
+                });
+        }catch (e) {
+            reject(e);
+        }
+    })
+};
+
+/**
+ * 发起交易, 修改
+ * @param key
+ * @param data
+ * @returns {Promise<unknown>}
+ */
+http.sendTransactionByModify = (key, data) => {
+    const params = jsonToSingle(JSON.stringify(data));
+    console.log(params);
+    return new Promise((resolve, reject) => {
+        try {
+            instance.get(`/broadcast_tx_async?tx="modify=${key}=${params}"`).then(
+                success => {
+                    resolve(success);
+                },
+                fail => {
+                    reject(fail);
+                });
+        }catch (e) {
+            reject(e);
+        }
+    })
+};
+
+/**
+ * 发起交易, 删除
+ * @param key
+ * @param data
+ * @returns {Promise<unknown>}
+ */
+http.sendTransactionByDelete = (key) => {
+    return new Promise((resolve, reject) => {
+        try {
+            instance.get(`/broadcast_tx_async?tx="delete=${key}="`).then(
                 success => {
                     resolve(success);
                 },

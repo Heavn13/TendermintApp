@@ -4,6 +4,7 @@
 export const defaultUser = {
     phone: "",
     nickname: "",
+    picture: "",
     birthday: 0,
     mail: "",
     password: "",

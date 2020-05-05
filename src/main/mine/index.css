@@ -32,3 +32,15 @@
     width: 20px;
     height: 20px;
 }
+
+.popup .picture {
+    margin: 0 30%;
+}
+
+.am-list-item .am-list-line .am-list-extra{
+    flex-basis: auto;
+}
+
+.am-image-picker{
+    text-align: center;
+}

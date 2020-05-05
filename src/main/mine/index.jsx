@@ -3,6 +3,7 @@ import React from "react";
 import {Flex, List, Modal, NavBar, WhiteSpace} from "antd-mobile";
 import {auth} from "../../util/auth";
 import {defaultUser} from "../../util/dict";
+import {ipfs} from "../../util/ipfs";
 const i_setting = require("../../assets/i_setting_gray.svg");
 const i_default_head = require("../../assets/i_default_head.svg");
 const i_cert = require("../../assets/i_cert_gray.svg");
@@ -17,12 +18,29 @@ export default class Mine extends React.Component{
         super(props);
         this.state = {
             user: defaultUser,
+            url: ""
         }
     }
 
     componentDidMount() {
-        this.setState({user: auth.getUser()});
+        this.setState({user: auth.getUser()}, () => this.init());
     }
+
+    /**
+     * 初始化信息
+     */
+    init = async () => {
+        const {user} = this.state;
+        try{
+            if(user.picture){
+                const picture = await ipfs.get(user.picture);
+                console.log(picture);
+                this.setState({url: picture});
+            }
+        }catch (e) {
+            console.log(e);
+        }
+    };
 
     // 退出登录
     logout = () => {
@@ -41,14 +59,14 @@ export default class Mine extends React.Component{
     };
 
     render(){
-        const {user} = this.state;
+        const {user, url} = this.state;
         return(
             <div className="mine">
                 <NavBar mode={"light"} rightContent={<img src={i_setting} alt={"设置"}/>}></NavBar>
                 {/*用户基本信息*/}
                 <div className="head">
                     <Flex justify={"start"}>
-                        <img src={i_default_head} alt={"头像"}/>
+                        <img src={user.picture ? url : i_default_head} alt={"头像"}/>
                         <div className="right">
                             <div className="username">{user.nickname}</div>
                             <Flex justify={"start"} className="bottom">
