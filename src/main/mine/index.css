@@ -44,3 +44,34 @@
 .am-image-picker{
     text-align: center;
 }
+
+.idcard {
+    margin: 0 6px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 3px;
+}
+
+.idcard .am-list-item .am-input-label.am-input-label-5{
+    font-size: 12px;
+    width: 70px !important;
+}
+
+.idcard .am-list-item .am-list-line .am-list-content{
+    font-size: 12px;
+    overflow: visible;
+    width: 60px !important;
+}
+
+.idcard .am-list-item .am-list-line .am-list-extra{
+    overflow: visible;
+}
+
+.title{
+    text-align: center;
+}
+
+.pictures{
+    padding-top: 5px;
+    padding-bottom: 3px;
+}

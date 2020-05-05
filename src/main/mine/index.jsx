@@ -87,7 +87,7 @@ export default class Mine extends React.Component{
                         thumb={i_person_cert}
                         arrow={"horizontal"}
                         extra={user.isCert ? "已认证" : "未认证"}
-                        onClick={() => this.props.history.push("/main/mine/auth")}
+                        onClick={() => this.props.history.push("/main/mine/cert")}
                     >实名认证</List.Item>
                     <List.Item
                         thumb={i_logout}

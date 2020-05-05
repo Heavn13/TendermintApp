@@ -6,6 +6,7 @@ import Register from "../register";
 import Login from "../login";
 import Main from "../main";
 import Information from "../main/mine/info";
+import Certification from "../main/mine/certification";
 
 const DefaultRoute = () => (
     <div>No match</div>
@@ -23,11 +24,18 @@ const BasicRoute = () => (
             <Route exact path="/register" component={Register}/>
             {/*首页界面*/}
             <Redirect exact from="/main" to="/main/home" />
-            {/*实名认证界面*/}
+            {/*个人信息界面*/}
             <Route exact path="/main/mine/info" render={
                 props => {
                     if(auth.checkUser(props))
                         return <Information {...props}/>
+                }
+            }/>
+            {/*实名认证界面*/}
+            <Route exact path="/main/mine/cert" render={
+                props => {
+                    if(auth.checkUser(props))
+                        return <Certification {...props}/>
                 }
             }/>
             {/*首页界面*/}
