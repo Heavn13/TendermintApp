@@ -1,0 +1,27 @@
+.container{
+    height: 100%;
+    margin-bottom: 70px;
+}
+.am-tab-bar {
+    width: 100%;
+    position: absolute;
+    height: auto;
+    bottom: 0;
+}
+.am-tab-bar .am-tab-bar-tab{
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.am-tab-bar .am-tab-bar-bar{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.am-tab-bar .am-tab-bar-tab-title{
+    margin: 0;
+}

@@ -13,3 +13,8 @@
 .am-list-item .am-input-extra{
     max-height: max-content;
 }
+
+.bottom{
+    color: #0e80d2;
+    font-size: 12px;
+}

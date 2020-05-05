@@ -3,6 +3,7 @@ import {PhoneFormat} from "../util/StringUtil";
 import {Button, NavBar, Icon, InputItem, Toast, WhiteSpace, WingBlank} from "antd-mobile";
 import "./index.css"
 import http from "../util/http";
+import {defaultUser} from "../util/dict";
 const i_phone = require("../assets/i_phone.svg");
 const i_smscode = require("../assets/i_smscode.svg");
 const i_password = require("../assets/i_password.svg");
@@ -47,17 +48,19 @@ export default class Register extends React.Component{
     toRegister = async () =>{
         const {phone, password} = this.state;
         // 密码长度校验
-        if(password.length < 8) {
+        if(password.length < 1) {
             Toast.info("密码长度太短，请重新设置");
             this.setState({password: ""});
             return ;
         }
         try {
             const user = {
-                phone: phone,
+                ...defaultUser,
+                phone: PhoneFormat(phone),
+                nickname: PhoneFormat(phone),
                 password: password
             }
-            const resp = await http.sendTransaction(user.phone, user);
+            const resp = await http.sendTransaction("user:"+user.phone, user);
             if(resp.data && resp.data.error){
                 Toast.fail("该用户已存在");
             }else{

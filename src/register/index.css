@@ -18,3 +18,13 @@
 .am-list-item .am-input-extra{
     max-height: max-content;
 }
+
+.hint{
+    display: flex;
+    color:#44c220;
+    font-size: 15px;
+}
+
+.hint .message{
+    padding-left: 5px;
+}

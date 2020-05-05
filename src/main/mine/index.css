@@ -1,0 +1,34 @@
+.head {
+    background-color: #fff;
+    padding: 8px 5px;
+}
+
+.head img{
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}
+
+.head .right {
+    margin-left: 5px;
+}
+
+.head .username{
+    font-size: 20px;
+}
+
+.head .bottom {
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+.head .cert{
+    display:inline-block;
+    margin-right: 5px;
+    margin-left: 2px;
+}
+
+.head .bottom  img{
+    width: 20px;
+    height: 20px;
+}
