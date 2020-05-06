@@ -99,12 +99,18 @@ export default class Certification extends React.Component{
                 isAudit: true,
                 certInfo: tempCertInfo
             }
+            user.isAudit = true;
+            auth.setUser(user);
             const resp = await http.sendTransactionByModify("user:"+user.phone, tempUser);
             if(resp.data && resp.data.error){
                 Toast.fail("提交实名认证信息失败", 2);
             }else{
                 Toast.success("提交实名认证信息成功", 2);
                 console.log(resp.data.result.hash);
+                setTimeout(() => {
+                    Toast.hide();
+                    this.props.history.goBack();
+                }, 2000);
             }
         }catch (e) {
             console.log(e);

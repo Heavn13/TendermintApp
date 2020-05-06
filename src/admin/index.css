@@ -1,0 +1,61 @@
+.admin .container{
+    height: 100%;
+    margin-bottom: 70px;
+}
+.admin .am-tab-bar {
+    width: 100%;
+    position: absolute;
+    height: auto;
+    bottom: 0;
+}
+.admin .am-tab-bar .am-tab-bar-tab{
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.admin .am-tab-bar .am-tab-bar-bar{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.admin .am-tab-bar .am-tab-bar-tab-title{
+    margin: 0;
+}
+
+.certItem {
+    margin: 8px 8px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.certItem .small{
+    font-size: 12px;
+    padding: 3px 0;
+}
+
+.certItem .view{
+    width: 100%;
+    text-align: right;
+    color: #108ee9;
+}
+
+.phone{
+    color: #ff5b05;
+}
+
+.fail{
+    color: #d81e06;
+}
+
+.success{
+    color: #6abf47;
+}
+
+.wait{
+    color: #108ee9;
+}

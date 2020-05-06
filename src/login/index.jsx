@@ -23,9 +23,10 @@ export default class Login extends React.Component{
     toLogin = async () => {
         const {phone, password} = this.state;
         try {
-            const resp = await http.query("user:"+PhoneFormat(phone));
+            const resp = await http.query("","user:"+PhoneFormat(phone));
             if(resp.data && resp.data.result.response.value){
                 const user = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
+                console.log(user)
                 if(user.password === password){
                     Toast.info("登陆成功");
                     auth.setUser(user);

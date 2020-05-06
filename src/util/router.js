@@ -7,6 +7,8 @@ import Login from "../login";
 import Main from "../main";
 import Information from "../main/mine/info";
 import Certification from "../main/mine/certification";
+import Admin from "../admin";
+import Operate from "../admin/operate";
 
 const DefaultRoute = () => (
     <div>No match</div>
@@ -45,6 +47,12 @@ const BasicRoute = () => (
                         return <Main {...props}/>
                 }
             }/>
+            {/*系统管理员审核界面*/}
+            <Redirect exact from="/admin" to="/admin/authenticate"/>
+            {/*系统管理员审核项目操作界面*/}
+            <Route exact path="/admin/authenticate/operate" component={Operate}/>
+            {/*系统管理员界面*/}
+            <Route path="/admin" component={Admin}/>
             {/*默认匹配*/}
             <Route path="/*" component={DefaultRoute}/>
         </Switch>

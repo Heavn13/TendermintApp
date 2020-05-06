@@ -25,3 +25,21 @@ export const jsonToSingle = (str) => {
 export const jsonToDouble = (str) => {
     return str.replace(/'/g,'"');
 }
+
+/**
+ * 时间戳转化成日期时间
+ * @param time
+ * @returns {string}
+ */
+export const timeStampToDateTime = (time) => {
+    return new Date(time).toLocaleString();
+};
+
+/**
+ * 时间戳转化成日期
+ * @param time
+ * @returns {string}
+ */
+export const timeStampToDate = (time) => {
+    return new Date(time).toLocaleDateString();
+};

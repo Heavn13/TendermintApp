@@ -111,6 +111,10 @@ export default class Information extends React.Component{
                     auth.setUser(user);
                     Toast.success("修改个人信息成功", 2);
                     console.log(resp.data.result.hash);
+                    setTimeout(() => {
+                        Toast.hide();
+                        this.props.history.goBack();
+                    }, 2000);
                 }
             }
         }catch (e) {

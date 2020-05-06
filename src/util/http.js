@@ -100,7 +100,28 @@ http.sendTransactionByDelete = (key) => {
 http.query = (data) => {
     return new Promise((resolve, reject) => {
         try {
-            instance.get(`/abci_query?data="${data}"`).then(
+            instance.get(`/abci_query?path="user"&data="${data}"`).then(
+                success => {
+                    resolve(success);
+                },
+                fail => {
+                    reject(fail);
+                });
+        }catch (e) {
+            reject(e);
+        }
+    })
+};
+
+/**
+ * 获取数据
+ * @param data
+ * @returns {Promise<unknown>}
+ */
+http.query = (path, data) => {
+    return new Promise((resolve, reject) => {
+        try {
+            instance.get(`/abci_query?path="${path}"&data="${data}"`).then(
                 success => {
                     resolve(success);
                 },
