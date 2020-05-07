@@ -46,8 +46,16 @@ export const defaultCarInfo = {
     inlet: 0, //进气 0自然进气 1涡轮增压
     parkingSensor: 0, //倒车雷达 0有 1无
     rentFee: 0, //日均租费
-    // begin: 0, //租赁开始时间
-    // end: 0, //租赁结束时间
-    // rentDays: 0, //租赁天数
     time: 0, //车辆信息创建时间
+}
+
+export const defaultTransaction = {
+    orderId: 0, //订单号
+    carId: 0, //商品id
+    userPhone: "", //用户手机号
+    begin: Date.now(), //租赁开始时间
+    end: Date.now(), //租赁结束时间
+    rentDays: 0, //租赁天数
+    totalFee: 0, //租赁总费用
+    time: 0, //交易创建时间
 }

@@ -51,3 +51,7 @@ export const millSecondsToDays = (time) => {
 export const randCarId = () => {
     return Number(Math.floor(Math.random()*1000).toString() + Date.now().toString())
 }
+
+export const randOrderId = () => {
+    return Number(Math.floor(Math.random()*100000).toString() + Date.now().toString())
+}

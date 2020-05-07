@@ -1,18 +1,22 @@
 import React from "react";
 import {
+    Button,
     DatePicker,
     Icon,
     ImagePicker,
     InputItem,
-    List,
+    List, Modal,
     NavBar,
-    Radio,
+    Radio, Toast,
     WhiteSpace,
     WingBlank
 } from "antd-mobile";
-import {defaultCarInfo} from "../../util/dict";
+import {defaultCarInfo, defaultTransaction, defaultUser} from "../../util/dict";
 import {mask} from "../../components/BasicInfo";
-import {millSecondsToDays} from "../../util/StringUtil";
+import {millSecondsToDays, randCarId, randOrderId} from "../../util/StringUtil";
+import {ipfs} from "../../util/ipfs";
+import http from "../../util/http";
+import {auth} from "../../util/auth";
 
 const transmissionCaseKeyToValue = {
     0 : "自动",
@@ -38,6 +42,8 @@ export default class Detail extends React.Component{
         super(props);
         this.state = {
             carInfo: defaultCarInfo,
+            transaction: defaultTransaction,
+            user: defaultUser,
             pictures: [],
         }
     }
@@ -47,7 +53,8 @@ export default class Detail extends React.Component{
         // 从路由中获取数据
         if(params)
             this.setState({
-                carInfo: params.carInfo
+                carInfo: params.carInfo,
+                user: auth.getUser()
             }, () => this.initPictures());
     }
 
@@ -57,8 +64,72 @@ export default class Detail extends React.Component{
         this.setState({pictures});
     }
 
+    /**
+     * 修改值的公共方法
+     * @param key
+     * @param value
+     */
+    modifyValue = (key, value) => {
+        const newValue = {
+            [key]: value
+        };
+        this.setState({transaction: {...this.state.transaction, ...newValue}}, () => this.calculate());
+    };
+
+    calculate = () => {
+        const {transaction, carInfo} = this.state;
+        if(transaction.begin !== 0 && transaction.end !== 0){
+            if(transaction.end <= transaction.begin){
+                Toast.info("租赁结束时间不能早于租赁开始时间");
+                this.setState({transaction: {...this.state.transaction, end: 0}});
+            }else{
+                this.setState({
+                    transaction: {
+                        ...this.state.transaction,
+                        rentDays: millSecondsToDays(transaction.end - transaction.begin),
+                        totalFee: millSecondsToDays(transaction.end - transaction.begin) * carInfo.rentFee
+                    }
+                })
+            }
+        }
+    }
+
+    submit = async () => {
+        const {carInfo,transaction, user} = this.state;
+        try {
+            if(user.isCert){
+                Toast.loading("正在提交订单中...",0);
+                const temp = {
+                    ...transaction,
+                    orderId: randOrderId(),
+                    carId: carInfo.id,
+                    userPhone: user.phone,
+                    time: Date.now()
+                }
+                const resp = await http.sendTransactionByAdd("transaction:"+temp.id, temp);
+                if(resp.data && resp.data.error){
+                    Toast.fail("订单提交失败");
+                }else{
+                    Toast.success("订单提交成功", 2);
+                    console.log(resp.data.result.hash);
+                    setTimeout(() => {
+                        Toast.hide();
+                        this.props.history.goBack();
+                    }, 2000);
+                }
+            }else{
+                Modal.alert("提醒","您尚未进行实名认证，需要实名认证完成后才能执行该操作，是否前往实名认证？",[
+                    {text: "确认", onPress:() => this.props.history.push("/main/mine/cert")}
+                ]);
+            }
+
+        }catch (e) {
+            console.log(e);
+        }
+    }
+
     render(){
-        const {carInfo, pictures, type} = this.state;
+        const {carInfo, pictures, transaction} = this.state;
         return(
             <div className="start">
                 {/*导航栏*/}
@@ -163,7 +234,7 @@ export default class Detail extends React.Component{
                 <List renderHeader={() => <div>租赁信息</div>}>
                 </List>
                 <DatePicker
-                    value={new Date(Number(carInfo.begin))}
+                    value={new Date(Number(transaction.begin))}
                     mode={"date"}
                     minDate={new Date()}
                     onChange={date => this.modifyValue("begin", date.valueOf())}
@@ -175,7 +246,7 @@ export default class Detail extends React.Component{
                     </List.Item>
                 </DatePicker>
                 <DatePicker
-                    value={new Date(Number(carInfo.end))}
+                    value={new Date(Number(transaction.end))}
                     mode={"date"}
                     minDate={new Date()}
                     onChange={date => this.modifyValue("end", date.valueOf())}
@@ -189,11 +260,31 @@ export default class Detail extends React.Component{
                 <InputItem
                     type={"number"}
                     disabled={true}
-                    value={millSecondsToDays(carInfo.end - carInfo.begin).toString()}
+                    value={transaction.rentDays.toString()}
                     extra="天"
                 >
                     租赁天数{mask}：
                 </InputItem>
+                <InputItem
+                    type={"number"}
+                    disabled={true}
+                    value={transaction.totalFee.toString()}
+                    extra="元"
+                >
+                    租赁总费用{mask}：
+                </InputItem>
+                <WhiteSpace size={"xl"}/>
+                <WingBlank>
+                    <Button
+                        type={"primary"}
+                        size={"small"}
+                        disabled={transaction.rentDays === 0}
+                        onClick={() => this.submit()}
+                    >
+                        提交
+                    </Button>
+                </WingBlank>
+                <WhiteSpace size={"xl"}/>
             </div>
         )
     }
