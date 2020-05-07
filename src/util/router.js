@@ -9,6 +9,9 @@ import Information from "../main/mine/info";
 import Certification from "../main/mine/certification";
 import Admin from "../admin";
 import Operate from "../admin/operate";
+import Manage from "../admin/manage";
+import Car from "../admin/manage/car";
+import Detail from "../main/home/detail";
 
 const DefaultRoute = () => (
     <div>No match</div>
@@ -26,6 +29,13 @@ const BasicRoute = () => (
             <Route exact path="/register" component={Register}/>
             {/*首页界面*/}
             <Redirect exact from="/main" to="/main/home" />
+            {/*车辆详情界面*/}
+            <Route exact path="/main/home/detail" render={
+                props => {
+                    if(auth.checkUser(props))
+                        return <Detail {...props}/>
+                }
+            }/>
             {/*个人信息界面*/}
             <Route exact path="/main/mine/info" render={
                 props => {
@@ -51,6 +61,10 @@ const BasicRoute = () => (
             <Redirect exact from="/admin" to="/admin/authenticate"/>
             {/*系统管理员审核项目操作界面*/}
             <Route exact path="/admin/authenticate/operate" component={Operate}/>
+            {/*系统管理员管理车辆信息界面*/}
+            <Route exact path="/admin/manage" component={Manage}/>
+            {/*系统管理员新增车辆信息界面*/}
+            <Route exact path="/admin/manage/car" component={Car}/>
             {/*系统管理员界面*/}
             <Route path="/admin" component={Admin}/>
             {/*默认匹配*/}

@@ -1,6 +1,6 @@
 import React from "react";
 import {NavBar, PullToRefresh, Toast, WhiteSpace} from "antd-mobile";
-import {jsonToDouble, PhoneFormat, timeStampToDateTime} from "../util/StringUtil";
+import {jsonToDouble, timeStampToDateTime} from "../util/StringUtil";
 import http from "../util/http";
 import {decodeBase64} from "../util/decode";
 
@@ -99,7 +99,7 @@ const CertItem= ({info,jump}) => {
     return(
         <div className="certItem">
             <div>用户手机号：<span className="phone">{info.phone}</span></div>
-            <div className="small">发起时间：{timeStampToDateTime(info.time)}</div>
+            <div className="small">发起时间：{timeStampToDateTime(info.certInfo.time)}</div>
             <div className="small">
                 当前状态：{
                 info.isCert ? <span className="success">审核通过</span> : (info.isAudit ?

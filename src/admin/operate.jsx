@@ -15,9 +15,6 @@ import BasicInfo from "../components/BasicInfo";
 import {defaultUser, sex} from "../util/dict";
 import {ipfs} from "../util/ipfs";
 import http from "../util/http";
-import {jsonToDouble} from "../util/StringUtil";
-import {decodeBase64} from "../util/decode";
-import {auth} from "../util/auth";
 
 /**
  * 实名认证信息审核操作界面

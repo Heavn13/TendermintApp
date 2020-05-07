@@ -43,3 +43,11 @@ export const timeStampToDateTime = (time) => {
 export const timeStampToDate = (time) => {
     return new Date(time).toLocaleDateString();
 };
+
+export const millSecondsToDays = (time) => {
+    return (time / (1000*60*60*24)).toFixed(0);
+};
+
+export const randCarId = () => {
+    return Number(Math.floor(Math.random()*1000).toString() + Date.now().toString())
+}

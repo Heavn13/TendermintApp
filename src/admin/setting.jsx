@@ -2,6 +2,7 @@ import React from "react";
 import {Flex, List, Modal, NavBar, WhiteSpace} from "antd-mobile";
 import {auth} from "../util/auth";
 const i_default_head = require("../assets/i_default_head.svg");
+const i_manage = require("../assets/i_manage.svg");
 const i_logout = require("../assets/i_logout.svg");
 
 /**
@@ -42,6 +43,11 @@ export default class Setting extends React.Component{
                 <WhiteSpace size={"lg"}/>
                 {/*功能列表*/}
                 <List>
+                    <List.Item
+                        thumb={i_manage}
+                        arrow={"horizontal"}
+                        onClick={() => this.props.history.push("/admin/manage")}
+                    >租赁管理</List.Item>
                     <List.Item
                         thumb={i_logout}
                         arrow={"horizontal"}

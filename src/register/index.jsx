@@ -58,7 +58,8 @@ export default class Register extends React.Component{
                 ...defaultUser,
                 phone: PhoneFormat(phone),
                 nickname: PhoneFormat(phone),
-                password: password
+                password: password,
+                time: Date.now()
             }
             const resp = await http.sendTransactionByAdd("user:"+user.phone, user);
             if(resp.data && resp.data.error){
