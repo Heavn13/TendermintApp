@@ -7,14 +7,13 @@ import {
     InputItem,
     List, Modal,
     NavBar,
-    Radio, Toast,
+    Toast,
     WhiteSpace,
     WingBlank
 } from "antd-mobile";
 import {defaultCarInfo, defaultTransaction, defaultUser} from "../../util/dict";
 import {mask} from "../../components/BasicInfo";
-import {millSecondsToDays, randCarId, randOrderId} from "../../util/StringUtil";
-import {ipfs} from "../../util/ipfs";
+import {millSecondsToDays, randOrderId} from "../../util/StringUtil";
 import http from "../../util/http";
 import {auth} from "../../util/auth";
 
@@ -103,19 +102,36 @@ export default class Detail extends React.Component{
                     ...transaction,
                     orderId: randOrderId(),
                     carId: carInfo.id,
+                    carName: carInfo.name,
                     userPhone: user.phone,
                     time: Date.now()
                 }
-                const resp = await http.sendTransactionByAdd("transaction:"+temp.id, temp);
+                const resp = await http.sendTransactionByAdd("transaction:"+temp.orderId, temp);
+                Toast.hide();
                 if(resp.data && resp.data.error){
-                    Toast.fail("订单提交失败");
+                    const state = {
+                        type: 0
+                    };
+                    this.props.history.replace({pathname: "/main/transaction/result",state})
                 }else{
-                    Toast.success("订单提交成功", 2);
-                    console.log(resp.data.result.hash);
-                    setTimeout(() => {
-                        Toast.hide();
-                        this.props.history.goBack();
-                    }, 2000);
+                    Modal.alert("提醒","订单提交成功，是否进行支付",[
+                        {text: "取消", onPress:() => {
+                                const state = {
+                                    type: 1
+                                };
+                                this.props.history.replace({pathname: "/main/transaction/result",state})
+                            }},
+                        {text: "确认", onPress:async () => {
+                            temp.isPaid = true;
+                            const resp = await http.sendTransactionByAdd("transaction:"+temp.orderId, temp);
+                            if(resp.data){
+                                const state = {
+                                    type: 2
+                                };
+                                this.props.history.replace({pathname: "/main/transaction/result",state})
+                            }
+                        }}
+                    ]);
                 }
             }else{
                 Modal.alert("提醒","您尚未进行实名认证，需要实名认证完成后才能执行该操作，是否前往实名认证？",[

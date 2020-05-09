@@ -52,10 +52,14 @@ export const defaultCarInfo = {
 export const defaultTransaction = {
     orderId: 0, //订单号
     carId: 0, //商品id
+    carName: "", //商品名称
     userPhone: "", //用户手机号
     begin: Date.now(), //租赁开始时间
     end: Date.now(), //租赁结束时间
     rentDays: 0, //租赁天数
     totalFee: 0, //租赁总费用
+    gpsData: "", //GPS数据
+    isPaid: false, //订单是否付款
+    isComplete: false, //订单是否完成
     time: 0, //交易创建时间
 }

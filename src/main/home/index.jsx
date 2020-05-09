@@ -15,7 +15,7 @@ const i_scan = require("../../assets/i_scan.svg");
 const i_location = require("../../assets/i_location.svg");
 
 
-export default class Manage extends React.Component{
+export default class Home extends React.Component{
 
     constructor(props) {
         super(props);

@@ -12,6 +12,8 @@ import Operate from "../admin/operate";
 import Manage from "../admin/manage";
 import Car from "../admin/manage/car";
 import Detail from "../main/home/detail";
+import TransactionDetail from "../main/transaction/detail";
+import OrderResult from "../components/OrderResult";
 
 const DefaultRoute = () => (
     <div>No match</div>
@@ -34,6 +36,20 @@ const BasicRoute = () => (
                 props => {
                     if(auth.checkUser(props))
                         return <Detail {...props}/>
+                }
+            }/>
+            {/*订单结果界面*/}
+            <Route exact path="/main/transaction/result" render={
+                props => {
+                    if(auth.checkUser(props))
+                        return <OrderResult {...props}/>
+                }
+            }/>
+            {/*订单详情界面*/}
+            <Route exact path="/main/transaction/detail" render={
+                props => {
+                    if(auth.checkUser(props))
+                        return <TransactionDetail {...props}/>
                 }
             }/>
             {/*个人信息界面*/}
