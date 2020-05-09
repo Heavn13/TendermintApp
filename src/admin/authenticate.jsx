@@ -1,11 +1,11 @@
 import React from "react";
 import {NavBar, PullToRefresh, Toast, WhiteSpace} from "antd-mobile";
-import {jsonToDouble, timeStampToDateTime} from "../util/StringUtil";
+import {jsonToDouble, timeStampToDateTime} from "../util/commonUtil";
 import http from "../util/http";
 import {decodeBase64} from "../util/decode";
 
 /**
- * 审核实名认证信息与组织认证信息列表界面
+ * 审核实名认证信息列表界面
  */
 export default class Authenticate extends React.Component{
 
@@ -60,13 +60,14 @@ export default class Authenticate extends React.Component{
         return(
             <div className="authenticate">
                 {/*导航栏*/}
-                <NavBar>实名认证信息</NavBar>
+                <NavBar className="navBar">实名认证信息</NavBar>
                 {/*上拉刷新*/}
                 <PullToRefresh
                     damping={40}
                     style={{
                         width: '100%',
                         overflow: 'auto',
+                        marginTop: '45px'
                     }}
                     indicator={{ activate: '松开立即刷新' }}
                     direction={'down'}

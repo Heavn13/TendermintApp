@@ -12,13 +12,16 @@ const i_info = require("../../assets/i_info.svg");
 const i_person_cert = require("../../assets/i_person_cert.svg");
 const i_logout = require("../../assets/i_logout.svg");
 
+/**
+ * 我的界面
+ */
 export default class Mine extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            user: defaultUser,
-            url: ""
+            user: defaultUser, //用户信息
+            url: "" //头像
         }
     }
 
@@ -27,7 +30,7 @@ export default class Mine extends React.Component{
     }
 
     /**
-     * 初始化信息
+     * 初始化头像信息
      */
     init = async () => {
         const {user} = this.state;
@@ -42,7 +45,9 @@ export default class Mine extends React.Component{
         }
     };
 
-    // 退出登录
+    /**
+     * 退出登录
+     */
     logout = () => {
         Modal.alert(
             "提醒",
@@ -71,7 +76,7 @@ export default class Mine extends React.Component{
                             <div className="username">{user.nickname}</div>
                             <Flex justify={"start"} className="bottom">
                                 <img src={user.isCert ? i_cert_red : i_cert} alt={"实名认证"}/>
-                                <span className="cert">{user.isCert ? "已实名认证" : "未实名认证"}</span>
+                                <span>{user.isCert ? <span className="cert">已实名认证</span> : "未实名认证"}</span>
                             </Flex>
                         </div>
                     </Flex>

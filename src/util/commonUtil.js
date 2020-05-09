@@ -44,14 +44,27 @@ export const timeStampToDate = (time) => {
     return new Date(time).toLocaleDateString();
 };
 
+/**
+ * 毫秒转化成天数
+ * @param time
+ * @returns {string}
+ */
 export const millSecondsToDays = (time) => {
     return (time / (1000*60*60*24)).toFixed(0);
 };
 
+/**
+ * 随机车辆id
+ * @returns {number}
+ */
 export const randCarId = () => {
     return Number(Math.floor(Math.random()*1000).toString() + Date.now().toString())
 }
 
+/**
+ * 随机交易id
+ * @returns {number}
+ */
 export const randOrderId = () => {
     return Number(Math.floor(Math.random()*100000).toString() + Date.now().toString())
 }

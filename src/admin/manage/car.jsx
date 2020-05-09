@@ -13,42 +13,54 @@ import {
 } from "antd-mobile";
 import {defaultCarInfo} from "../../util/dict";
 import {mask} from "../../components/BasicInfo";
-import {randCarId} from "../../util/StringUtil";
+import {randCarId} from "../../util/commonUtil";
 import http from "../../util/http";
 import {ipfs} from "../../util/ipfs";
 
+/**
+ * keyValue转化
+ * @type {({label: string, value: number}|{label: string, value: number})[]}
+ */
 const transmissionCaseItems = [
     {label:"自动", value: 0},
     {label:"手动", value: 1},
 ]
 
+/**
+ * keyValue转化
+ * @type {({label: string, value: number}|{label: string, value: number})[]}
+ */
 const inletItems = [
     {label:"自然进气", value: 0},
     {label:"涡轮增压", value: 1},
 ];
 
+/**
+ * keyValue转化
+ * @type {({label: string, value: number}|{label: string, value: number})[]}
+ */
 const parkingSensorItems = [
     {label:"有", value: 0},
     {label:"无", value: 1},
 ];
 
 /**
- * 新增车辆信息界面
+ * 新增/修改车辆信息界面
  */
 export default class Car extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            carInfo: defaultCarInfo,
-            pictures: [],
+            carInfo: defaultCarInfo, //车辆信息
+            pictures: [], //车辆图片
             type: 0 // 0 新增 1 修改
         }
     }
 
     componentDidMount() {
         const params = this.props.history.location.state;
-        // 从路由中获取数据
+        // 从路由参数中获取数据
         if(params)
             this.setState({
                 type: params.type,
@@ -56,7 +68,11 @@ export default class Car extends React.Component{
             }, () => this.initPictures());
     }
 
-    initPictures = async() => {
+    /**
+     * 初始化图片
+     * @returns {Promise<void>}
+     */
+    initPictures = () => {
         const {pictures, carInfo, type} = this.state;
         if(type === 1){
             pictures.push({url: carInfo.url});
@@ -76,11 +92,15 @@ export default class Car extends React.Component{
         this.setState({carInfo: {...this.state.carInfo, ...newValue}});
     };
 
+    /**
+     * 新增车辆信息
+     */
     submit = async () => {
         const {carInfo, pictures} = this.state;
         try {
             Toast.loading("正在提交车辆信息中...",0);
             const hash = await ipfs.add(pictures[0].url);
+            // 车辆信息
             const temp = {
                 ...carInfo,
                 id: randCarId(),
@@ -104,11 +124,15 @@ export default class Car extends React.Component{
         }
     }
 
+    /**
+     * 修改车辆信息
+     */
     modify = async () => {
         const {carInfo, pictures} = this.state;
         try {
             Toast.loading("正在修改车辆信息中...",0);
             const hash = await ipfs.add(pictures[0].url);
+            // 车辆信息
             const temp = {
                 ...carInfo,
                 picture: hash,
@@ -131,6 +155,9 @@ export default class Car extends React.Component{
         }
     }
 
+    /**
+     * 删除车辆信息
+     */
     delete = async () => {
         const {carInfo} = this.state;
         try {
@@ -157,11 +184,18 @@ export default class Car extends React.Component{
             <div className="start">
                 {/*导航栏*/}
                 <NavBar
+                    style={{
+                        width: '100%',
+                        position: 'fixed',
+                        zIndex: 1
+                    }}
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.goBack()}
                 >
                     {type === 0 ? "新增车辆信息" : "管理车辆信息"}
                 </NavBar>
+                <WhiteSpace size={"xl"}/>
+                <WhiteSpace size={"xl"}/>
                 {/*车辆基本信息*/}
                 <List renderHeader={() => <div>车辆基本信息</div>}>
                     <InputItem
@@ -313,10 +347,10 @@ export default class Car extends React.Component{
                     ) : (
                         <Flex justify={"between"}>
                             <Flex.Item>
-                                <Button type={"ghost"} size={"small"} onClick={() => this.delete()}>删除</Button>
+                                <Button type={"primary"} size={"small"} onClick={() => this.delete()}>删除</Button>
                             </Flex.Item>
                             <Flex.Item>
-                                <Button type={"ghost"} size={"small"} onClick={() => this.modify()}>修改</Button>
+                                <Button type={"primary"} size={"small"} onClick={() => this.modify()}>修改</Button>
                             </Flex.Item>
                         </Flex>
                     )}

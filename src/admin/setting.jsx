@@ -36,7 +36,7 @@ export default class Setting extends React.Component{
                         <img src={i_default_head} alt={"头像"}/>
                         <div className="right">
                             <div className="username">系统管理员</div>
-                            <div className="summary">主要职责为审核实名认证</div>
+                            <div className="summary">主要职责：审核实名认证；租赁信息管理</div>
                         </div>
                     </Flex>
                 </div>

@@ -5,14 +5,14 @@ import {TabBar} from "antd-mobile";
 import Setting from "./setting";
 import Authenticate from "./authenticate";
 const i_cert = require("../assets/i_cert_gray.svg");
-const i_cert_red = require("../assets/i_cert_red.svg");
+const i_cert_blue = require("../assets/i_cert_blue.svg");
 const i_setting = require("../assets/i_setting_gray.svg");
-const i_setting_red = require("../assets/i_setting_red.svg");
+const i_setting_blue = require("../assets/i_setting_blue.svg");
 
 
 const tabs = [
-    {path: "/admin/authenticate", title: "审核", icon: i_cert, selectedIcon: i_cert_red },
-    {path: "/admin/setting", title: "系统设置", icon: i_setting, selectedIcon: i_setting_red },
+    {path: "/admin/authenticate", title: "审核", icon: i_cert, selectedIcon: i_cert_blue },
+    {path: "/admin/setting", title: "系统设置", icon: i_setting, selectedIcon: i_setting_blue },
 ];
 
 /**
@@ -24,7 +24,7 @@ export default class Admin extends React.Component{
         super(props);
 
         this.state = {
-            tabIndex: 0,
+            tabIndex: 0, //底部导航栏下标
         }
 
     }
@@ -48,7 +48,7 @@ export default class Admin extends React.Component{
                 <TabBar
                     className="tab-bar"
                     unselectedTintColor="#949494"
-                    tintColor="#f4333c"
+                    tintColor="#0e80d2"
                     barTintColor="white"
                     tabBarPosition="bottom"
                 >

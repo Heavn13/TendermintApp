@@ -8,18 +8,21 @@ import {
 } from "antd-mobile";
 import CarItem from "../../components/CarItem";
 import http from "../../util/http";
-import {jsonToDouble} from "../../util/StringUtil";
+import {jsonToDouble} from "../../util/commonUtil";
 import {decodeBase64} from "../../util/decode";
 import {ipfs} from "../../util/ipfs";
 const i_new = require("../../assets/i_new.svg");
 
+/**
+ * 租赁管理界面
+ */
 export default class Manage extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            carInfos: [],
-            refreshing: false
+            carInfos: [], //车辆信息数组
+            refreshing: false //刷新状态
         }
     }
 
@@ -28,7 +31,7 @@ export default class Manage extends React.Component{
     }
 
     /**
-     * 获取参与/发起的项目数据
+     * 获取车辆信息数组
      * @returns {Promise<void>}
      */
     getData = async () => {
@@ -52,13 +55,12 @@ export default class Manage extends React.Component{
     };
 
     /**
-     * 跳转至管理项目界面
-     * @param type 项目类型
-     * @param project 项目信息
+     * 跳转至管理车辆界面
+     * @param carInfo 车辆信息
      */
     jumpToManage = (carInfo) => {
         const state = {
-            type: 1,
+            type: 1, //修改
             carInfo: carInfo
         };
         this.props.history.push({pathname: "/admin/manage/car", state})
@@ -70,6 +72,12 @@ export default class Manage extends React.Component{
             <div className="project">
                 {/*导航栏*/}
                 <NavBar
+                    className="navBar"
+                    style={{
+                        width: '100%',
+                        position: 'fixed',
+                        top: 0,
+                    }}
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.goBack()}
                 >
@@ -81,7 +89,8 @@ export default class Manage extends React.Component{
                     damping={40}
                     style={{
                         width: '100%',
-                        overflow: 'auto'
+                        overflow: 'auto',
+                        marginTop: '45px'
                     }}
                     indicator={{ activate: '松开立即刷新' }}
                     direction={'down'}

@@ -1,10 +1,10 @@
 import "./common.css"
 import React from "react";
-import {timeStampToDateTime, timeStampToDate} from "../util/StringUtil";
+import {timeStampToDateTime, timeStampToDate} from "../util/commonUtil";
 
 /**
- * 用户基本信息组件
- * @param user
+ * 订单基本信息组件
+ * @param order
  * @constructor
  */
 export default class OrderItem extends React.Component {

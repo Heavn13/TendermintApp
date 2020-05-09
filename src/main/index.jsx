@@ -6,17 +6,17 @@ import Home from "./home/index";
 import Mine from "./mine/index";
 import Transaction from "./transaction";
 const i_home = require("../assets/i_home_gray.svg");
-const i_home_red = require("../assets/i_home_red.svg");
+const i_home_blue = require("../assets/i_home_blue.svg");
 const i_transaction = require("../assets/i_transaction_gray.svg");
 const i_transaction_blue = require("../assets/i_transaction_blue.svg");
 const i_mine = require("../assets/i_mine_gray.svg");
-const i_mine_red = require("../assets/i_mine_red.svg");
+const i_mine_blue = require("../assets/i_mine_blue.svg");
 
 
 const tabs = [
-    {path: "/main/home", title: "首页", icon: i_home, selectedIcon: i_home_red},
+    {path: "/main/home", title: "首页", icon: i_home, selectedIcon: i_home_blue},
     {path: "/main/transaction", title: "交易", icon: i_transaction, selectedIcon: i_transaction_blue},
-    {path: "/main/mine", title: "我的", icon: i_mine, selectedIcon: i_mine_red},
+    {path: "/main/mine", title: "我的", icon: i_mine, selectedIcon: i_mine_blue},
 ];
 
 /**
@@ -28,7 +28,7 @@ export default class Main extends React.Component{
         super(props);
 
         this.state = {
-            tabIndex: 0,
+            tabIndex: 0, //底部导航栏 0 首页 1 交易 2 我的
         }
 
     }
@@ -54,7 +54,7 @@ export default class Main extends React.Component{
                 <TabBar
                     className="tab-bar"
                     unselectedTintColor="#949494"
-                    tintColor="#f4333c"
+                    tintColor="#0e80d2"
                     barTintColor="white"
                     tabBarPosition="bottom"
                 >

@@ -3,7 +3,7 @@
  * @author Heavn
  */
 import axios from "axios";
-import {jsonToSingle} from "./StringUtil";
+import {jsonToSingle} from "./commonUtil";
 
 /**
  * axios默认请求实例
@@ -80,27 +80,6 @@ http.sendTransactionByDelete = (key) => {
     return new Promise((resolve, reject) => {
         try {
             instance.get(`/broadcast_tx_async?tx="delete=${key}="`).then(
-                success => {
-                    resolve(success);
-                },
-                fail => {
-                    reject(fail);
-                });
-        }catch (e) {
-            reject(e);
-        }
-    })
-};
-
-/**
- * 获取数据
- * @param data key值
- * @returns {Promise<unknown>}
- */
-http.query = (data) => {
-    return new Promise((resolve, reject) => {
-        try {
-            instance.get(`/abci_query?path="user"&data="${data}"`).then(
                 success => {
                     resolve(success);
                 },

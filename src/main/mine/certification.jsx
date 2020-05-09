@@ -51,6 +51,7 @@ export default class Certification extends React.Component{
                     ]
                 )
             }else{
+                // 校验通过加载身份证图片
                 if(user.certInfo.picture1 && user.certInfo.picture2 && user.certInfo.picture3){
                     const picture1 = await ipfs.get(user.certInfo.picture1);
                     pictures.push({url: picture1});
@@ -67,7 +68,10 @@ export default class Certification extends React.Component{
         }
     };
 
-    // 提交认证
+    /**
+     * 提交认证信息
+     * @returns {Promise<void>}
+     */
     toAuthenticate = async () => {
         const {user, pictures} = this.state;
         if(user.certInfo.id === "" || !user.certInfo.idAddress || !user.certInfo.name){
@@ -84,6 +88,7 @@ export default class Certification extends React.Component{
             const picture2 = await ipfs.add(pictures[1].url);
             const picture3 = await ipfs.add(pictures[2].url);
 
+            //身份证信息
             const tempCertInfo = {
                 name: user.certInfo.name,
                 sex: user.certInfo.sex,
@@ -94,18 +99,20 @@ export default class Certification extends React.Component{
                 picture3: picture3,
                 time: Date.now()
             };
+            // 用户信息
             const tempUser = {
                 ...user,
                 isAudit: true,
                 certInfo: tempCertInfo
             }
             user.isAudit = true;
-            auth.setUser(user);
             const resp = await http.sendTransactionByModify("user:"+user.phone, tempUser);
             if(resp.data && resp.data.error){
                 Toast.fail("提交实名认证信息失败", 2);
             }else{
                 Toast.success("提交实名认证信息成功", 2);
+                // 更新用户信息
+                auth.setUser(user);
                 console.log(resp.data.result.hash);
                 setTimeout(() => {
                     Toast.hide();
@@ -137,12 +144,19 @@ export default class Certification extends React.Component{
             <div className="person">
                 {/*导航栏*/}
                 <NavBar
+                    style={{
+                        width: '100%',
+                        position: 'fixed',
+                        zIndex: 1
+                    }}
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.goBack()}
                     rightContent={<span onClick={() => this.toAuthenticate()}>{status === 2 ? "重新认证" : "认证"}</span>}
                 >
                     实名认证
                 </NavBar>
+                <WhiteSpace size={"xl"}/>
+                <WhiteSpace size={"xl"}/>
                 {/*基本信息*/}
                 <BasicInfo user={user}/>
                 {/*身份证信息*/}

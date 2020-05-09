@@ -13,43 +13,55 @@ import {
 } from "antd-mobile";
 import {defaultCarInfo, defaultTransaction, defaultUser} from "../../util/dict";
 import {mask} from "../../components/BasicInfo";
-import {millSecondsToDays, randOrderId} from "../../util/StringUtil";
+import {millSecondsToDays, randOrderId} from "../../util/commonUtil";
 import http from "../../util/http";
 import {auth} from "../../util/auth";
 
+/**
+ * key转value
+ * @type {{"0": string, "1": string}}
+ */
 const transmissionCaseKeyToValue = {
     0 : "自动",
     1 : "手动"
 };
 
+/**
+ * key转value
+ * @type {{"0": string, "1": string}}
+ */
 const inletKeyToValue = {
     0 : "自然进气",
     1 : "涡轮增压"
 }
 
+/**
+ * key转value
+ * @type {{"0": string, "1": string}}
+ */
 const parkingSensorKeyToValue = {
     0 : "有",
     1 : "无"
 }
 
 /**
- * 新增车辆信息界面
+ * 车辆详细信息界面
  */
 export default class Detail extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            carInfo: defaultCarInfo,
-            transaction: defaultTransaction,
-            user: defaultUser,
-            pictures: [],
+            carInfo: defaultCarInfo, //车辆信息
+            transaction: defaultTransaction, //交易信息
+            user: defaultUser, //用户信息
+            pictures: [], //照片
         }
     }
 
     componentDidMount() {
         const params = this.props.history.location.state;
-        // 从路由中获取数据
+        // 从路由参数中获取数据
         if(params)
             this.setState({
                 carInfo: params.carInfo,
@@ -57,7 +69,11 @@ export default class Detail extends React.Component{
             }, () => this.initPictures());
     }
 
-    initPictures = async() => {
+    /**
+     * 初始化车辆照片
+     * @returns {Promise<void>}
+     */
+    initPictures = () => {
         const {pictures, carInfo} = this.state;
         pictures.push({url: carInfo.url});
         this.setState({pictures});
@@ -75,6 +91,9 @@ export default class Detail extends React.Component{
         this.setState({transaction: {...this.state.transaction, ...newValue}}, () => this.calculate());
     };
 
+    /**
+     * 根据开始时间和结束时间计算天数和费用
+     */
     calculate = () => {
         const {transaction, carInfo} = this.state;
         if(transaction.begin !== 0 && transaction.end !== 0){
@@ -93,11 +112,16 @@ export default class Detail extends React.Component{
         }
     }
 
+    /**
+     * 提交订单
+     */
     submit = async () => {
         const {carInfo,transaction, user} = this.state;
         try {
+            // 需要先进行实名认证
             if(user.isCert){
                 Toast.loading("正在提交订单中...",0);
+                // 交易信息
                 const temp = {
                     ...transaction,
                     orderId: randOrderId(),
@@ -109,6 +133,7 @@ export default class Detail extends React.Component{
                 const resp = await http.sendTransactionByAdd("transaction:"+temp.orderId, temp);
                 Toast.hide();
                 if(resp.data && resp.data.error){
+                    // 失败
                     const state = {
                         type: 0
                     };
@@ -116,12 +141,14 @@ export default class Detail extends React.Component{
                 }else{
                     Modal.alert("提醒","订单提交成功，是否进行支付",[
                         {text: "取消", onPress:() => {
+                                // 订单状态为待付款
                                 const state = {
                                     type: 1
                                 };
                                 this.props.history.replace({pathname: "/main/transaction/result",state})
                             }},
                         {text: "确认", onPress:async () => {
+                            // 订单状态为付款成功
                             temp.isPaid = true;
                             const resp = await http.sendTransactionByAdd("transaction:"+temp.orderId, temp);
                             if(resp.data){
@@ -150,11 +177,18 @@ export default class Detail extends React.Component{
             <div className="start">
                 {/*导航栏*/}
                 <NavBar
+                    style={{
+                        width: '100%',
+                        position: 'fixed',
+                        zIndex: 1
+                    }}
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.goBack()}
                 >
                     租赁车辆详情
                 </NavBar>
+                <WhiteSpace size={"xl"}/>
+                <WhiteSpace size={"xl"}/>
                 {/*车辆基本信息*/}
                 <List renderHeader={() => <div>车辆基本信息</div>}>
                     <InputItem

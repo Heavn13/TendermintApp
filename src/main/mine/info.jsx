@@ -3,7 +3,7 @@ import {Button, DatePicker, Icon, ImagePicker, List, Modal, NavBar, Toast, White
 import {defaultUser} from "../../util/dict";
 import {auth} from "../../util/auth";
 import http from "../../util/http";
-import {jsonToDouble} from "../../util/StringUtil";
+import {jsonToDouble} from "../../util/commonUtil";
 import {decodeBase64} from "../../util/decode";
 import {ipfs} from "../../util/ipfs";
 const i_default_head = require("../../assets/i_default_head.svg");
@@ -15,17 +15,17 @@ const i_birthday = require("../../assets/i_birthday.svg");
 const i_mail = require("../../assets/i_mail.svg");
 
 /**
- * 用户个人信息组件
+ * 用户个人信息管理界面
  */
 export default class Information extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            user: defaultUser,
-            url: "",
-            pictures: [],
-            popup: false
+            user: defaultUser, //用户信息
+            url: "", //头像
+            pictures: [], //身份证图片
+            popup: false //是否弹框
         }
     }
 
@@ -57,6 +57,7 @@ export default class Information extends React.Component{
             [
                 {text: "取消"},
                 {text: "确认", onPress:value => {
+                        //数值校验
                         switch (key) {
                             case "nickname":
                                 if(value.length > 12){
@@ -108,6 +109,7 @@ export default class Information extends React.Component{
                 const resp = await http.query("user:"+user.phone);
                 if(resp.data && resp.data.result.response.value){
                     const user = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
+                    // 更新个人信息
                     auth.setUser(user);
                     Toast.success("修改个人信息成功", 2);
                     console.log(resp.data.result.hash);
@@ -122,7 +124,9 @@ export default class Information extends React.Component{
         }
     };
 
-
+    /**
+     * 修改头像
+     */
     choosePicture = async () => {
         const {pictures, user} = this.state;
         try{
@@ -140,12 +144,19 @@ export default class Information extends React.Component{
         return(
             <div className="info">
                 <NavBar
+                    style={{
+                        width: '100%',
+                        position: 'fixed',
+                        zIndex: 1
+                    }}
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.goBack()}
                     rightContent={<span onClick={() => this.toSave()}>{"保存"}</span>}
                 >
                     个人信息
                 </NavBar>
+                <WhiteSpace size={"md"}/>
+                <WhiteSpace size={"md"}/>
                 <List renderHeader={<div>基本信息</div>}>
                     <List.Item
                         thumb={i_head}

@@ -3,7 +3,7 @@ import React from "react";
 import http from "../util/http";
 import {decodeBase64} from "../util/decode";
 import {Button, InputItem, Toast, WingBlank, WhiteSpace, Flex} from "antd-mobile";
-import {jsonToDouble, PhoneFormat} from "../util/StringUtil";
+import {jsonToDouble, PhoneFormat} from "../util/commonUtil";
 import {auth} from "../util/auth";
 const i_phone = require("../assets/i_phone.svg");
 const i_password = require("../assets/i_password.svg");
@@ -20,6 +20,10 @@ export default class Login extends React.Component{
         }
     }
 
+    /**
+     * 登录
+     * @returns {Promise<void>}
+     */
     toLogin = async () => {
         const {phone, password} = this.state;
         try {
@@ -48,6 +52,7 @@ export default class Login extends React.Component{
             <div className="login">
                 <WingBlank>
                     <div style={{height: 100}}></div>
+                    {/*app名称*/}
                     <div className={"name"}>TendermintApp</div>
                     <WhiteSpace size={"xl"}/>
                     <InputItem

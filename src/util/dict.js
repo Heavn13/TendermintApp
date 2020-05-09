@@ -32,6 +32,10 @@ export const sex = [
     {value: 2, label: "未知"}
 ];
 
+/**
+ * 车辆信息默认值
+ * @type {{transmissionCase: number, consumption: number, seats: number, inlet: number, picture: string, url: string, rentFee: number, parkingSensor: number, name: string, displacement: number, id: number, tankCapacity: number, time: number, brand: string}}
+ */
 export const defaultCarInfo = {
     id: 0, //商品id
     name: "", //商品名称
@@ -49,6 +53,10 @@ export const defaultCarInfo = {
     time: 0, //车辆信息创建时间
 }
 
+/**
+ * 交易信息默认值
+ * @type {{gpsData: string, isPaid: boolean, rentDays: number, orderId: number, carName: string, totalFee: number, userPhone: string, end: number, time: number, begin: number, carId: number, isComplete: boolean}}
+ */
 export const defaultTransaction = {
     orderId: 0, //订单号
     carId: 0, //商品id

@@ -1,15 +1,7 @@
-.bar {
-    background-color: #0e80d2;
-    color: #fff;
+.navBar{
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 1;
-}
-
-.searchBar {
-    background-color: #0e80d2;
-}
-.am-search-cancel{
-    color: #fff;
+    background-color: #fff;
+    padding-bottom: 10px;
 }

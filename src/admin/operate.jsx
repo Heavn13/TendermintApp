@@ -24,8 +24,8 @@ export default class Operate extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            user: defaultUser,
-            pictures: []
+            user: defaultUser, //用户信息
+            pictures: [] //照片
         }
     };
 
@@ -39,7 +39,7 @@ export default class Operate extends React.Component{
     };
 
     /**
-     * 从ipfs中获取身份证件照/营业执照
+     * 从ipfs中获取身份证件照
      * @returns {Promise<void>}
      */
     getPicture = async () => {
@@ -58,7 +58,7 @@ export default class Operate extends React.Component{
     };
 
     /**
-     * 审核发送信息操作
+     * 审核操作
      * @param agree 是否审核通过
      * @returns {Promise<void>}
      */
@@ -66,6 +66,7 @@ export default class Operate extends React.Component{
         const {user} = this.state;
         try {
             Toast.loading("正在进行审核操作中...",0);
+            // 用户信息
             const temp = {
                 ...user,
                 isCert: agree,
@@ -94,11 +95,18 @@ export default class Operate extends React.Component{
             <div className="operate">
                 {/*导航栏*/}
                 <NavBar
+                    style={{
+                        width: '100%',
+                        position: 'fixed',
+                        zIndex: 1
+                    }}
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.goBack()}
                 >
                     实名认证审核
                 </NavBar>
+                <WhiteSpace size={"xl"}/>
+                <WhiteSpace size={"xl"}/>
                 {/*基本信息*/}
                 <BasicInfo user={user}/>
                 <div className="person">

@@ -1,12 +1,12 @@
 import "./common.css"
 import React from "react";
 import {Flex} from "antd-mobile";
-import {timeStampToDateTime} from "../util/StringUtil";
+import {timeStampToDateTime} from "../util/commonUtil";
 const i_nopicture = require("../assets/i_nopicture.svg");
 
 /**
- * 用户基本信息组件
- * @param user
+ * 车辆基本信息组件
+ * @param carInfo
  * @constructor
  */
 export default class CarItem extends React.Component {

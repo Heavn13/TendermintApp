@@ -2,24 +2,26 @@ import "./index.css"
 import React from "react";
 import {WhiteSpace, SegmentedControl, WingBlank, Toast, PullToRefresh} from "antd-mobile";
 import http from "../../util/http";
-import {jsonToDouble} from "../../util/StringUtil";
+import {jsonToDouble} from "../../util/commonUtil";
 import {decodeBase64} from "../../util/decode";
 import {defaultUser} from "../../util/dict";
 import {auth} from "../../util/auth";
-import OrderItem from "../../components/Ordertem";
+import OrderItem from "../../components/OrderItem";
 
-
+/**
+ * 交易列表界面
+ */
 export default class Transaction extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: 0,
-            user: defaultUser,
-            waitOrders: [],
-            processingOrders: [],
-            completeOrders: [],
-            refreshing: false
+            selectedIndex: 0, //订单状态 0 待付款 1 进行中 2 已完成
+            user: defaultUser, //用户信息
+            waitOrders: [], //待付款交易列表
+            processingOrders: [], //进行中交易列表
+            completeOrders: [], //已完成交易列表
+            refreshing: false //刷新状态
         }
     }
 
@@ -27,6 +29,9 @@ export default class Transaction extends React.Component{
         this.setState({user: auth.getUser()}, () => this.getAllOrders());
     }
 
+    /**
+     * 获取所有的交易数据
+     */
     getAllOrders = async () => {
         const {user} = this.state;
         try {
@@ -34,6 +39,7 @@ export default class Transaction extends React.Component{
             if(resp.data && resp.data.result.response.value){
                 const allOrders = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
                 console.log(allOrders);
+                // 对交易进行分类
                 const waitOrders = allOrders.filter(i => !i.isPaid);
                 const processingOrders = allOrders.filter(i => i.isPaid && !i.isComplete);
                 const completeOrders = allOrders.filter(i => i.isComplete);
@@ -46,6 +52,9 @@ export default class Transaction extends React.Component{
         }
     }
 
+    /**
+     * 跳转至交易详情界面
+     */
     jumpToDetail = (transaction) => {
         const {selectedIndex} = this.state;
         const state = {
@@ -61,7 +70,7 @@ export default class Transaction extends React.Component{
         return(
             <div className="transaction">
                 {/*消息类型分段选择器*/}
-                <div>
+                <div className="navBar">
                     <WhiteSpace size={"md"}/>
                     <WingBlank>
                         <SegmentedControl
@@ -78,11 +87,12 @@ export default class Transaction extends React.Component{
                     style={{
                         width: '100%',
                         overflow: 'auto',
+                        marginTop: '45px'
                     }}
                     indicator={{ activate: '松开立即刷新' }}
                     direction={'down'}
                     refreshing={refreshing}
-                    onRefresh={() => this.getData()}
+                    onRefresh={() => this.getAllOrders()}
                 >
                     <div className="orderList">
                         {selectedIndex === 0 && waitOrders.length > 0 ? waitOrders.map((item, index) => {

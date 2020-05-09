@@ -3,7 +3,7 @@ import React from "react";
 import {Icon, NavBar, Result} from "antd-mobile";
 
 /**
- * 用户基本信息组件
+ * 订单结果组件
  * @param user
  * @constructor
  */
@@ -12,7 +12,7 @@ export default class OrderResult extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            type: 0
+            type: 0 // 0 失败 1 待付款 2 成功
         }
     }
 
@@ -30,7 +30,7 @@ export default class OrderResult extends React.Component {
                 <NavBar>订单提交结果</NavBar>
                 {type === 0 && (
                     <Result
-                        img={<Icon type="cross-circle-o" className="spe" style={{ fill: '#F13642' }} />}
+                        img={<Icon type="cross-circle-o" size={"lg"} className="spe" style={{ fill: '#F13642' }} />}
                         title="订单提交失败"
                         buttonText={"返回首页"}
                         onButtonClick={() => this.props.history.replace("/main")}
@@ -38,7 +38,7 @@ export default class OrderResult extends React.Component {
                 )}
                 {type === 1 && (
                     <Result
-                        img={<Icon type="loading" className="spe" style={{ fill: '#ffc600' }} />}
+                        img={<Icon type="loading"  size={"lg"} className="spe" style={{ fill: '#ffc600' }} />}
                         title="等待付款"
                         buttonText={"去支付"}
                         onButtonClick={() => this.props.history.replace("/main/transaction")}
@@ -46,7 +46,7 @@ export default class OrderResult extends React.Component {
                 )}
                 {type === 2 && (
                     <Result
-                        img={<Icon type="check-circle" className="spe" style={{ fill: '#6abf47' }} />}
+                        img={<Icon type="check-circle" size={"lg"}  className="spe" style={{ fill: '#6abf47' }} />}
                         title="订单提交成功"
                         buttonText={"查看详情"}
                         onButtonClick={() => this.props.history.replace("/main/transaction")}

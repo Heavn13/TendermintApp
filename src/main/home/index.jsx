@@ -8,21 +8,23 @@ import {
 } from "antd-mobile";
 import CarItem from "../../components/CarItem";
 import http from "../../util/http";
-import {jsonToDouble} from "../../util/StringUtil";
+import {jsonToDouble} from "../../util/commonUtil";
 import {decodeBase64} from "../../util/decode";
 import {ipfs} from "../../util/ipfs";
 const i_scan = require("../../assets/i_scan.svg");
 const i_location = require("../../assets/i_location.svg");
 
-
+/**
+ * 首页展示租赁信息界面
+ */
 export default class Home extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            carInfos: [],
-            refreshing: false,
-            searchContent: ""
+            carInfos: [], //车辆信息数组
+            refreshing: false, //刷新状态
+            searchContent: "" //搜索内容
         }
     }
 
@@ -31,7 +33,7 @@ export default class Home extends React.Component{
     }
 
     /**
-     * 获取参与/发起的项目数据
+     * 获取车辆信息数组
      * @returns {Promise<void>}
      */
     getData = async () => {
@@ -55,9 +57,8 @@ export default class Home extends React.Component{
     };
 
     /**
-     * 跳转至管理项目界面
-     * @param type 项目类型
-     * @param project 项目信息
+     * 跳转至车辆详细信息界面
+     * @param carInfo 车辆信息
      */
     jumpToDetail = (carInfo) => {
         const state = {

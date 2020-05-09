@@ -4,7 +4,7 @@
 }
 .am-tab-bar {
     width: 100%;
-    position: absolute;
+    position: fixed;
     height: auto;
     bottom: 0;
 }
@@ -24,4 +24,5 @@
 }
 .am-tab-bar .am-tab-bar-tab-title{
     margin: 0;
+    font-size: 12px;
 }

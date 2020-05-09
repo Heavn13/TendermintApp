@@ -1,5 +1,5 @@
 import React from "react";
-import {PhoneFormat} from "../util/StringUtil";
+import {PhoneFormat} from "../util/commonUtil";
 import {Button, NavBar, Icon, InputItem, Toast, WhiteSpace, WingBlank, Modal} from "antd-mobile";
 import "./index.css"
 import http from "../util/http";
