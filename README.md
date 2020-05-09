@@ -17,5 +17,5 @@
 ## tendermint apci参考网址
 http://cw.hubwiz.com/card/c/tendermint-rpc-api/
 
-## antd组件参考网址
-https://ant.design/components/button-cn/
+## antd-mobile组件参考网址
+https://mobile.ant.design/components/flex-cn/
