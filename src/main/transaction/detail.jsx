@@ -12,7 +12,7 @@ import {
     WingBlank
 } from "antd-mobile";
 import {defaultCarInfo, defaultTransaction, defaultUser} from "../../util/dict";
-import {jsonToDouble, jsonToSingle, timeStampToDateTime} from "../../util/commonUtil";
+import {jsonToDouble, timeStampToDateTime} from "../../util/commonUtil";
 import http from "../../util/http";
 import {auth} from "../../util/auth";
 import {decodeBase64} from "../../util/decode";

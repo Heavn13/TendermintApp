@@ -72,7 +72,6 @@ export default class Manage extends React.Component{
             <div className="project">
                 {/*导航栏*/}
                 <NavBar
-                    className="navBar"
                     style={{
                         width: '100%',
                         position: 'fixed',

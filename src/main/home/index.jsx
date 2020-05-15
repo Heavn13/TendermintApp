@@ -99,7 +99,7 @@ export default class Home extends React.Component{
                     style={{
                         width: '100%',
                         overflow: 'auto',
-                        marginTop: 40
+                        marginTop: '45px'
                     }}
                     indicator={{ activate: '松开立即刷新' }}
                     direction={'down'}

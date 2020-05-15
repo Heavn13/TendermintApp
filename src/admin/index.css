@@ -3,12 +3,6 @@
     margin-bottom: 70px;
 }
 
-.admin .navBar{
-    width: 100%;
-    position: fixed;
-    top: 0;
-}
-
 .admin .am-tab-bar {
     width: 100%;
     position: fixed;

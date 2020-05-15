@@ -106,18 +106,13 @@ export default class Information extends React.Component{
             if(resp.data && resp.data.error){
                 Toast.fail("修改个人信息失败", 2);
             }else{
-                const resp = await http.query("user:"+user.phone);
-                if(resp.data && resp.data.result.response.value){
-                    const user = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
-                    // 更新个人信息
-                    auth.setUser(user);
-                    Toast.success("修改个人信息成功", 2);
-                    console.log(resp.data.result.hash);
-                    setTimeout(() => {
-                        Toast.hide();
-                        this.props.history.goBack();
-                    }, 2000);
-                }
+                auth.setUser(user);
+                Toast.success("修改个人信息成功", 2);
+                console.log(resp.data.result.hash);
+                setTimeout(() => {
+                    Toast.hide();
+                    this.props.history.goBack();
+                }, 2000);
             }
         }catch (e) {
             console.log(e);
@@ -155,8 +150,8 @@ export default class Information extends React.Component{
                 >
                     个人信息
                 </NavBar>
-                <WhiteSpace size={"md"}/>
-                <WhiteSpace size={"md"}/>
+                <WhiteSpace size={"xl"}/>
+                <WhiteSpace size={"xl"}/>
                 <List renderHeader={<div>基本信息</div>}>
                     <List.Item
                         thumb={i_head}

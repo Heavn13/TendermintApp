@@ -60,7 +60,13 @@ export default class Authenticate extends React.Component{
         return(
             <div className="authenticate">
                 {/*导航栏*/}
-                <NavBar className="navBar">实名认证信息</NavBar>
+                <NavBar
+                    style={{
+                        width: '100%',
+                        position: 'fixed',
+                        top: 0,
+                    }}
+                >实名认证信息</NavBar>
                 {/*上拉刷新*/}
                 <PullToRefresh
                     damping={40}

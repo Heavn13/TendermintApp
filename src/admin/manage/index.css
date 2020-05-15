@@ -6,12 +6,6 @@
     top: 80%
 }
 
-.project .navBar{
-    width: 100%;
-    position: fixed;
-    top: 0;
-}
-
 .start .am-list-item .am-input-label.am-input-label-5 {
     width: 40% !important;
 }
