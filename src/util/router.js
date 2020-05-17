@@ -14,6 +14,7 @@ import Car from "../admin/manage/car";
 import Detail from "../main/home/detail";
 import TransactionDetail from "../main/transaction/detail";
 import OrderResult from "../components/OrderResult";
+import Search from "../main/home/search";
 
 const DefaultRoute = () => (
     <div>No match</div>
@@ -31,6 +32,13 @@ const BasicRoute = () => (
             <Route exact path="/register" component={Register}/>
             {/*首页界面*/}
             <Redirect exact from="/main" to="/main/home" />
+            {/*搜索界面*/}
+            <Route exact path="/main/home/search" render={
+                props => {
+                    if(auth.checkUser(props))
+                        return <Search {...props}/>
+                }
+            }/>
             {/*车辆详情界面*/}
             <Route exact path="/main/home/detail" render={
                 props => {

@@ -55,6 +55,13 @@ export default class Home extends React.Component{
             console.log(e);
         }
     };
+    /**
+     * 跳转至搜索页面
+     */
+    jumpToSearch = () => {
+        this.props.history.push("/main/home/search");
+    };
+
 
     /**
      * 跳转至车辆详细信息界面
@@ -84,7 +91,7 @@ export default class Home extends React.Component{
                             className="searchBar"
                             value={searchContent}
                             placeholder={"请输入商品名称"}
-                            onFocus={() => {}}
+                            onFocus={() => this.jumpToSearch()}
                             onChange={value => this.setState({searchContent: value})}
                         />
                     </Flex.Item>

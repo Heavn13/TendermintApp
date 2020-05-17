@@ -11,7 +11,7 @@ import {
     Button,
     Flex, Toast
 } from "antd-mobile";
-import {defaultCarInfo} from "../../util/dict";
+import {currentPosition, defaultCarInfo} from "../../util/dict";
 import {mask} from "../../components/BasicInfo";
 import {randCarId} from "../../util/commonUtil";
 import http from "../../util/http";
@@ -100,12 +100,14 @@ export default class Car extends React.Component{
         try {
             Toast.loading("正在提交车辆信息中...",0);
             const hash = await ipfs.add(pictures[0].url);
+            const position = currentPosition[Math.floor(Math.random()*currentPosition.length)]
             // 车辆信息
             const temp = {
                 ...carInfo,
                 id: randCarId(),
                 picture: hash,
                 url: "",
+                location: position,
                 time: Date.now()
             }
             const resp = await http.sendTransactionByAdd("car:"+temp.id, temp);

@@ -29,8 +29,9 @@ export default class Authenticate extends React.Component{
         try {
             const resp = await http.query("user","");
             if(resp.data && resp.data.result.response.value){
-                const certInfos = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
-                console.log(certInfos)
+                const temp = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
+                console.log(temp);
+                const certInfos = temp.filter(item => item.certInfo.id !== "");
                 this.setState({certInfos: certInfos});
             }else{
                 Toast.fail("数据不存在");

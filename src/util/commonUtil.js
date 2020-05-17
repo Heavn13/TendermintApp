@@ -68,3 +68,44 @@ export const randCarId = () => {
 export const randOrderId = () => {
     return Number(Math.floor(Math.random()*100000).toString() + Date.now().toString())
 }
+
+/**
+ * 从localstorage获取搜索历史记录
+ * @returns {null|any}
+ */
+export const getSearchHistory = () => {
+    if(localStorage.getItem("history"))
+        return JSON.parse(localStorage.getItem("history"));
+    else
+        return null;
+};
+/**
+ * 将搜索历史记录存到localstorage中
+ * @param search
+ */
+export const setSearchHistory = (search) => {
+    if(search){
+        if(!localStorage.getItem("history")){
+            const history = [];
+            history.push(search);
+            localStorage.setItem("history", JSON.stringify(history));
+        }else{
+            const history = JSON.parse(localStorage.getItem("history"));
+            console.log(history);
+            console.log(history.indexOf(search));
+            if(history.indexOf(search) !== -1){
+                history.splice(history.indexOf(search), 1);
+            }
+            history.push(search);
+            localStorage.setItem("history", JSON.stringify(history));
+        }
+    }
+};
+
+/**
+ * 清除搜索历史记录缓存信息
+ */
+export const clearSearchHistory = () => {
+    if(localStorage.getItem("history"))
+        localStorage.removeItem("history");
+};
