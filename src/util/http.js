@@ -30,7 +30,6 @@ let http = {
  */
 http.sendTransactionByAdd = (key, data) => {
     const params = jsonToSingle(JSON.stringify(data));
-    console.log(params);
     return new Promise((resolve, reject) => {
         try {
             instance.get(`/broadcast_tx_async?tx="add=${key}=${params}"`).then(
@@ -54,7 +53,6 @@ http.sendTransactionByAdd = (key, data) => {
  */
 http.sendTransactionByModify = (key, data) => {
     const params = jsonToSingle(JSON.stringify(data));
-    console.log(params);
     return new Promise((resolve, reject) => {
         try {
             instance.get(`/broadcast_tx_async?tx="modify=${key}=${params}"`).then(

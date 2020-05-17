@@ -285,7 +285,7 @@ export default class OrderDetail extends React.Component{
                         油箱容量：
                     </InputItem>
                     <InputItem
-                        type={"number"}
+                        type={"money"}
                         disabled={true}
                         value={carInfo.displacement.toString()}
                         extra="L"
@@ -293,7 +293,7 @@ export default class OrderDetail extends React.Component{
                         排量：
                     </InputItem>
                     <InputItem
-                        type={"number"}
+                        type={"money"}
                         disabled={true}
                         value={carInfo.consumption.toString()}
                         extra="L/100km"

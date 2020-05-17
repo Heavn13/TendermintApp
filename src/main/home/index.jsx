@@ -8,11 +8,17 @@ import {
 } from "antd-mobile";
 import CarItem from "../../components/CarItem";
 import http from "../../util/http";
-import {jsonToDouble} from "../../util/commonUtil";
+import {jsonToDouble, randCarId} from "../../util/commonUtil";
 import {decodeBase64} from "../../util/decode";
 import {ipfs} from "../../util/ipfs";
 const i_scan = require("../../assets/i_scan.svg");
 const i_location = require("../../assets/i_location.svg");
+const data = require("../../assets/carInfos.json") ;
+const p1 = require("../../assets/picture/1.jpg");
+const p2 = require("../../assets/picture/2.jpg");
+const p3 = require("../../assets/picture/3.jpeg");
+const p4 = require("../../assets/picture/4.jpg");
+const p5 = require("../../assets/picture/5.jpg");
 
 /**
  * 首页展示租赁信息界面
@@ -28,8 +34,40 @@ export default class Home extends React.Component{
         }
     }
 
-    componentDidMount() {
-        this.getData();
+    async componentDidMount() {
+        await this.init();
+        await this.getData();
+    }
+
+    /**
+     * 初始化车辆信息
+     * @returns {Promise<void>}
+     */
+    init = async () => {
+        try {
+            const resp = await http.query("car","");
+            if(resp.data && resp.data.result.response.value){
+                const carInfos = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
+                if(carInfos.length <= 0){
+                    Toast.loading("正在自动生成车辆信息中...",0);
+                    let i = 1;
+                    for(const item of data){
+                        const hash = await ipfs.add(eval("p"+i));
+                        const temp = {
+                            ...item,
+                            id: randCarId(),
+                            picture: hash
+                        }
+                        await http.sendTransactionByAdd("car:"+temp.id, temp);
+                        i ++;
+                    }
+                    Toast.hide();
+                }
+            }
+        }catch (e) {
+            Toast.hide();
+            console.log(e);
+        }
     }
 
     /**
@@ -38,10 +76,10 @@ export default class Home extends React.Component{
      */
     getData = async () => {
         try {
+            Toast.loading("正在获取车辆信息中...",0);
             const resp = await http.query("car","");
             if(resp.data && resp.data.result.response.value){
                 const carInfos = JSON.parse(jsonToDouble(decodeBase64(resp.data.result.response.value)));
-                console.log(carInfos);
                 // 获取图片
                 for(const carInfo of carInfos){
                     const result = await ipfs.get(carInfo.picture);
@@ -51,7 +89,9 @@ export default class Home extends React.Component{
             }else{
                 Toast.fail("数据不存在");
             }
+            Toast.hide();
         }catch (e) {
+            Toast.hide();
             console.log(e);
         }
     };

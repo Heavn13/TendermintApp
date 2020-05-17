@@ -263,7 +263,7 @@ export default class Car extends React.Component{
                         油箱容量{mask}：
                     </InputItem>
                     <InputItem
-                        type={"number"}
+                        type={"money"}
                         maxLength={7}
                         placeholder={"请输入排量"}
                         value={carInfo.displacement.toString()}
@@ -273,7 +273,7 @@ export default class Car extends React.Component{
                         排量{mask}：
                     </InputItem>
                     <InputItem
-                        type={"number"}
+                        type={"money"}
                         maxLength={7}
                         placeholder={"请输入百公里消耗"}
                         value={carInfo.consumption.toString()}

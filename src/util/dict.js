@@ -50,7 +50,7 @@ export const defaultCarInfo = {
     inlet: 0, //进气 0自然进气 1涡轮增压
     parkingSensor: 0, //倒车雷达 0有 1无
     rentFee: 0, //日均租费
-    location: [], //当前位置
+    location: "", //当前位置
     time: 0, //车辆信息创建时间
 }
 
