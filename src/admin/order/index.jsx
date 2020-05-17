@@ -99,7 +99,7 @@ export default class Order extends React.Component{
                         <SearchBar
                             className="searchBar"
                             value={searchContent}
-                            placeholder={"请输入商品名称"}
+                            placeholder={"请输入车辆id"}
                             onChange={value => this.setState({searchContent: value})}
                             cancelText={"搜索"}
                             onCancel={() => this.search(searchContent)}
