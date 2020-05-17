@@ -3,6 +3,7 @@ import {Flex, List, Modal, NavBar, WhiteSpace} from "antd-mobile";
 import {auth} from "../util/auth";
 const i_default_head = require("../assets/i_default_head.svg");
 const i_manage = require("../assets/i_manage.svg");
+const i_transaction = require("../assets/i_transaction_gray.svg");
 const i_logout = require("../assets/i_logout.svg");
 
 /**
@@ -48,6 +49,11 @@ export default class Setting extends React.Component{
                         arrow={"horizontal"}
                         onClick={() => this.props.history.push("/admin/manage")}
                     >租赁管理</List.Item>
+                    <List.Item
+                        thumb={i_transaction}
+                        arrow={"horizontal"}
+                        onClick={() => this.props.history.push("/admin/order")}
+                    >订单管理</List.Item>
                     <List.Item
                         thumb={i_logout}
                         arrow={"horizontal"}

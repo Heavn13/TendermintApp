@@ -3,8 +3,6 @@ import {Button, DatePicker, Icon, ImagePicker, List, Modal, NavBar, Toast, White
 import {defaultUser} from "../../util/dict";
 import {auth} from "../../util/auth";
 import http from "../../util/http";
-import {jsonToDouble} from "../../util/commonUtil";
-import {decodeBase64} from "../../util/decode";
 import {ipfs} from "../../util/ipfs";
 const i_default_head = require("../../assets/i_default_head.svg");
 const i_person_cert = require("../../assets/i_person_cert.svg");

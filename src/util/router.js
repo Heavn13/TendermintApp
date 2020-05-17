@@ -15,6 +15,8 @@ import Detail from "../main/home/detail";
 import TransactionDetail from "../main/transaction/detail";
 import OrderResult from "../components/OrderResult";
 import Search from "../main/home/search";
+import Order from "../admin/order";
+import OrderDetail from "../admin/order/detail";
 
 const DefaultRoute = () => (
     <div>No match</div>
@@ -89,6 +91,10 @@ const BasicRoute = () => (
             <Route exact path="/admin/manage" component={Manage}/>
             {/*系统管理员新增车辆信息界面*/}
             <Route exact path="/admin/manage/car" component={Car}/>
+            {/*系统管理员管理车辆信息界面*/}
+            <Route exact path="/admin/order" component={Order}/>
+            {/*系统管理员车辆订单详细信息界面*/}
+            <Route exact path="/admin/order/detail" component={OrderDetail}/>
             {/*系统管理员界面*/}
             <Route path="/admin" component={Admin}/>
             {/*默认匹配*/}
